@@ -1,0 +1,22 @@
+{
+    "name": "diagro/api",
+    "description": "Library for writing API facades for other Laravel backends",
+    "type": "library",
+    "version": "1.0.11",
+    "authors": [
+        {
+            "name": "Stijn Leenknegt",
+            "email": "stijn@diagro.be"
+        }
+    ],
+    "require": {
+        "laravel/framework":"v8.67.0",
+        "php": "^8.0",
+        "guzzlehttp/guzzle": "^7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Diagro\\API\\": "src/"
+        }
+    }
+}
