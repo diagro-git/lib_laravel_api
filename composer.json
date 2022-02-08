@@ -1,5 +1,5 @@
 {
-    "name": "diagro/api",
+    "name": "diagro/core_laravel_api",
     "description": "Library for writing API facades for other Laravel backends",
     "type": "library",
     "version": "1.0.11",
