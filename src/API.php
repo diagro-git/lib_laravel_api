@@ -58,36 +58,44 @@ abstract class API
     }
 
 
-    public static function get(string $url, array $headers = [], array $query = []): \Illuminate\Http\Client\Response
+    public static function get(array $headers = [], array $query = []): \Illuminate\Http\Client\Response
     {
         return self::makeHttp($headers)
-            ->get($url, $query)
+            ->get(static::url(), $query)
             ->onError(self::getFailHandler());
     }
 
 
-    public static function post(string $url, array $data, array $headers = []): \Illuminate\Http\Client\Response
+    public static function post(array $data, array $headers = []): \Illuminate\Http\Client\Response
     {
         return self::makeHttp($headers)
-            ->post($url, $data)
+            ->post(static::url(), $data)
             ->onError(self::getFailHandler());
     }
 
 
-    public static function put(string $url, array $data, array $headers = []): \Illuminate\Http\Client\Response
+    public static function put(array $data, array $headers = []): \Illuminate\Http\Client\Response
     {
         return self::makeHttp($headers)
-            ->put($url, $data)
+            ->put(static::url(), $data)
             ->onError(self::getFailHandler());
     }
 
 
-    public static function delete(string $url, array $data, array $headers = []): \Illuminate\Http\Client\Response
+    public static function delete(array $data, array $headers = []): \Illuminate\Http\Client\Response
     {
         return self::makeHttp($headers)
-            ->delete($url, $data)
+            ->delete(static::url(), $data)
             ->onError(self::getFailHandler());
     }
+
+
+    /**
+     * Geeft de URL terug voor de requests.
+     *
+     * @return string
+     */
+    abstract static protected function url(): string;
 
 
 }

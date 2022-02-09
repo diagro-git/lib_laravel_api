@@ -21,6 +21,10 @@ Deze bibliotheek wordt gebruikt als basis voor alle backend API facades.
 
 ## Changelog
 
+### V1.1.0
+
+* **Update**: $url parameter weg in de API en url() methode die subclasses moeten implementeren.
+
 ### V1.0.0
 
 * **Feature**: API abstract class per API facade
