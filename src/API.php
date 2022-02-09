@@ -58,34 +58,34 @@ abstract class API
     }
 
 
-    public static function get(array $headers = [], array $query = []): \Illuminate\Http\Client\Response
+    public static function get(string $path, array $headers = [], array $query = []): \Illuminate\Http\Client\Response
     {
         return self::makeHttp($headers)
-            ->get(static::url(), $query)
+            ->get(static::url($path), $query)
             ->onError(self::getFailHandler());
     }
 
 
-    public static function post(array $data, array $headers = []): \Illuminate\Http\Client\Response
+    public static function post(string $path, array $data, array $headers = []): \Illuminate\Http\Client\Response
     {
         return self::makeHttp($headers)
-            ->post(static::url(), $data)
+            ->post(static::url($path), $data)
             ->onError(self::getFailHandler());
     }
 
 
-    public static function put(array $data, array $headers = []): \Illuminate\Http\Client\Response
+    public static function put(string $path, array $data, array $headers = []): \Illuminate\Http\Client\Response
     {
         return self::makeHttp($headers)
-            ->put(static::url(), $data)
+            ->put(static::url($path), $data)
             ->onError(self::getFailHandler());
     }
 
 
-    public static function delete(array $data, array $headers = []): \Illuminate\Http\Client\Response
+    public static function delete(string $path, array $data, array $headers = []): \Illuminate\Http\Client\Response
     {
         return self::makeHttp($headers)
-            ->delete(static::url(), $data)
+            ->delete(static::url($path), $data)
             ->onError(self::getFailHandler());
     }
 
@@ -93,9 +93,10 @@ abstract class API
     /**
      * Geeft de URL terug voor de requests.
      *
+     * @param string $path the url path
      * @return string
      */
-    abstract static protected function url(): string;
+    abstract static protected function url(string $path): string;
 
 
 }
