@@ -21,7 +21,7 @@ Deze bibliotheek wordt gebruikt als basis voor alle backend API facades.
 
 ## Changelog
 
-### V1.0.0
+### V1.0
 
 * **Feature**: API abstract class per API facade
 * **Feature**: Response classes
