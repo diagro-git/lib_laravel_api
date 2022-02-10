@@ -2,9 +2,9 @@
 
 <p align="center">
 <img src="https://img.shields.io/badge/project-lib_laravel_api-yellowgreen" alt="Diagro API facade helpers">
-<a href="https://github.com/diagro-git/service_auth"><img src="https://img.shields.io/badge/type-library-informational" alt="Diagro service"></a>
-<a href="https://php.net"><img src="https://img.shields.io/badge/php-8.0-blueviolet" alt="PHP"></a>
-<a href="https://laravel.com/docs/8.x/"><img src="https://img.shields.io/badge/laravel-8.67-red" alt="Laravel framework"></a>
+<img src="https://img.shields.io/badge/type-library-informational" alt="Diagro service">
+<img src="https://img.shields.io/badge/php-8.0-blueviolet" alt="PHP">
+<img src="https://img.shields.io/badge/laravel-8.67-red" alt="Laravel framework">
 </p>
 
 ## Beschrijving
