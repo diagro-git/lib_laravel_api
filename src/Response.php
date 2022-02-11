@@ -41,6 +41,12 @@ abstract class Response
         }
     }
 
+
+    public function hasResponse(): bool
+    {
+        return ($this->processed != null);
+    }
+
     /**
      * Handles the response.
      * The return value is stored in the processed property of this response class.
