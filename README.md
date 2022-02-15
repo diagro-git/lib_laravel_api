@@ -3,8 +3,8 @@
 <p align="center">
 <img src="https://img.shields.io/badge/project-lib_laravel_api-yellowgreen" alt="Diagro API facade helpers">
 <img src="https://img.shields.io/badge/type-library-informational" alt="Diagro service">
-<img src="https://img.shields.io/badge/php-8.0-blueviolet" alt="PHP">
-<img src="https://img.shields.io/badge/laravel-8.67-red" alt="Laravel framework">
+<img src="https://img.shields.io/badge/php-8.1-blueviolet" alt="PHP">
+<img src="https://img.shields.io/badge/laravel-9.0-red" alt="Laravel framework">
 </p>
 
 ## Beschrijving
@@ -20,6 +20,9 @@ Deze bibliotheek wordt gebruikt als basis voor alle backend API facades.
 * Composer: `diagro/lib_laravel_api: "^1.0"`
 
 ## Changelog
+
+### V1.1
+* **Feature**: upgrade naar PHP8.1 and Laravel 9.0
 
 ### V1.0
 
