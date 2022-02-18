@@ -4,6 +4,7 @@ namespace Diagro\API;
 use Closure;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
+use RuntimeException;
 
 
 /**
@@ -96,7 +97,10 @@ abstract class API
      * @param string $path the url path
      * @return string
      */
-    abstract static protected function url(string $path): string;
+    static protected function url(string $path): string
+    {
+        throw new RuntimeException("Unimplemented!");
+    }
 
 
 }

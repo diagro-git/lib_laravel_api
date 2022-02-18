@@ -21,6 +21,9 @@ Deze bibliotheek wordt gebruikt als basis voor alle backend API facades.
 
 ## Changelog
 
+### V1.2
+* **Update**: static abstract functie kan niet in abstract class. Gooit `RuntimeException` als subclass niet implementeerd.
+
 ### V1.1
 * **Feature**: upgrade naar PHP8.1 and Laravel 9.0
 
