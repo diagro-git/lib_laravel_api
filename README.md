@@ -13,13 +13,16 @@ Deze bibliotheek wordt gebruikt als basis voor alle backend API facades.
 
 ## Development
 
-* Composer: `diagro/lib_laravel_api: "^1.0"`
+* Composer: `diagro/lib_laravel_api: "^1.3"`
 
 ## Production
 
-* Composer: `diagro/lib_laravel_api: "^1.0"`
+* Composer: `diagro/lib_laravel_api: "^1.3"`
 
 ## Changelog
+
+### V1.3
+* **Update**: default headers request via backend of frontend
 
 ### V1.2
 * **Update**: static abstract functie kan niet in abstract class. Gooit `RuntimeException` als subclass niet implementeerd.

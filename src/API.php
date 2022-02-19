@@ -43,10 +43,12 @@ abstract class API
 
     private static function makeHeaders(array $headers = []): array
     {
+        $token = request()->bearerToken() ?? request()->cookie('aat');
+        $app_id = request()->header('x-app-id') ?? config('diagro.app_id');
         $defaultHeaders = [
             'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . request()->bearerToken(),
-            'x-app-id' => request()->header('x-app-id'),
+            'Authorization' => 'Bearer ' . $token,
+            'x-app-id' => $app_id,
         ];
 
         return array_merge($headers, $defaultHeaders);
