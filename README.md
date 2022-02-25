@@ -1,4 +1,4 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://diagro.be/assets/img/diagro-logo.svg" width="400"></a></p>
+<p align="center"><a href="https://www.diagro.be" target="_blank"><img src="https://diagro.be/assets/img/diagro-logo.svg" width="400"></a></p>
 
 <p align="center">
 <img src="https://img.shields.io/badge/project-lib_laravel_api-yellowgreen" alt="Diagro API facade helpers">
@@ -13,13 +13,16 @@ Deze bibliotheek wordt gebruikt als basis voor alle backend API facades.
 
 ## Development
 
-* Composer: `diagro/lib_laravel_api: "^1.3"`
+* Composer: `diagro/lib_laravel_api: "^1.4"`
 
 ## Production
 
-* Composer: `diagro/lib_laravel_api: "^1.3"`
+* Composer: `diagro/lib_laravel_api: "^1.4"`
 
 ## Changelog
+
+### V1.4
+* **Bugfix**: 
 
 ### V1.3
 * **Update**: default headers request via backend of frontend

@@ -2,7 +2,10 @@
 namespace Diagro\API;
 
 use Closure;
+use Exception;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Http;
 use RuntimeException;
 
@@ -41,9 +44,28 @@ abstract class API
     }
 
 
-    private static function makeHeaders(array $headers = []): array
+    private static function getToken(): string
     {
         $token = request()->bearerToken() ?? request()->cookie('aat');
+        if(empty($token)) {
+            $cookies = Arr::where(Cookie::getQueuedCookies(), function(\Symfony\Component\HttpFoundation\Cookie $cookie) {
+                return $cookie->getName() == 'aat';
+            });
+
+            if(count($cookies) == 1) {
+                $token = $cookies[0];
+            } else {
+                throw new Exception("No bearer token found to send with the request!");
+            }
+        }
+
+        return $token;
+    }
+
+
+    private static function makeHeaders(array $headers = []): array
+    {
+        $token = self::getToken();
         $app_id = request()->header('x-app-id') ?? config('diagro.app_id');
         $defaultHeaders = [
             'Accept' => 'application/json',
