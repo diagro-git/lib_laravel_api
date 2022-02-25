@@ -21,8 +21,11 @@ Deze bibliotheek wordt gebruikt als basis voor alle backend API facades.
 
 ## Changelog
 
+### V1.6
+* **Bugfix**: getValue van queued cookie
+
 ### V1.5
-* **Bugfix**: Token moet eerst uit queued cookies halen 
+* **Bugfix**: Token moet eerst uit queued cookies halen
 
 ### V1.3
 * **Update**: default headers request via backend of frontend

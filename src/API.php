@@ -53,7 +53,7 @@ abstract class API
             });
 
             if(count($cookies) == 1) {
-                $token = $cookies[0];
+                $token = $cookies[0]->getValue();
             } elseif(request()->hasCookie('aat')) {
                 $token = request()->cookie('aat');
             } else {
