@@ -46,14 +46,16 @@ abstract class API
 
     private static function getToken(): string
     {
-        $token = request()->bearerToken() ?? request()->cookie('aat');
-        if(empty($token)) {
+        $token = request()->bearerToken();
+        if(empty($token)) { //look in cookies
             $cookies = Arr::where(Cookie::getQueuedCookies(), function(\Symfony\Component\HttpFoundation\Cookie $cookie) {
-                return $cookie->getName() == 'aat';
+                return $cookie->getName() == 'aat' && ! $cookie->isCleared();
             });
 
             if(count($cookies) == 1) {
                 $token = $cookies[0];
+            } elseif(request()->hasCookie('aat')) {
+                $token = request()->cookie('aat');
             } else {
                 throw new Exception("No bearer token found to send with the request!");
             }

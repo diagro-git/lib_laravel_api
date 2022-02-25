@@ -13,16 +13,16 @@ Deze bibliotheek wordt gebruikt als basis voor alle backend API facades.
 
 ## Development
 
-* Composer: `diagro/lib_laravel_api: "^1.4"`
+* Composer: `diagro/lib_laravel_api: "^1.5"`
 
 ## Production
 
-* Composer: `diagro/lib_laravel_api: "^1.4"`
+* Composer: `diagro/lib_laravel_api: "^1.5"`
 
 ## Changelog
 
-### V1.4
-* **Bugfix**: 
+### V1.5
+* **Bugfix**: Token moet eerst uit queued cookies halen 
 
 ### V1.3
 * **Update**: default headers request via backend of frontend
