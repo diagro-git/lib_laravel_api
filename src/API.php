@@ -142,13 +142,11 @@ abstract class API
      * @param CacheLevel $cacheLevel
      * @return mixed
      */
-    protected static function cache(string $cache_key, closure $closure, int $ttl = 3600, CacheLevel $cacheLevel = CacheLevel::USER)
+    protected static function cache(string $endpoint, closure $closure, int $ttl = 3600, CacheLevel $cacheLevel = CacheLevel::USER)
     {
-        $key = self::concatToString(
-            str_replace('diagro_api_', '', strtolower(str_replace('\\', '_', static::class))),
-            $cache_key
-        );
-        $tags = [$key];
+        $application = self::applicationCacheKey();
+        $key = self::concatToString($application, $endpoint);
+        $tags = [$application, $endpoint];
 
         switch($cacheLevel)
         {
@@ -170,6 +168,12 @@ abstract class API
     }
 
 
+    protected static function applicationCacheKey(): string
+    {
+        return str_replace('diagro_api_', '', strtolower(str_replace('\\', '_', static::class)));
+    }
+
+
     protected static function concatToString(...$args)
     {
         return implode('_', $args);
@@ -179,6 +183,29 @@ abstract class API
     public function json(?string $key = 'data'): array
     {
         return $this->response->json($key);
+    }
+
+
+    public function deleteCache(?string $endpoint = null, CacheLevel $cacheLevel = CacheLevel::APPLICATION): static
+    {
+        $tags = [self::applicationCacheKey()];
+        if($endpoint != null) {
+            $tags[] = $endpoint;
+        }
+
+        switch($cacheLevel)
+        {
+            case CacheLevel::USER:
+                $tags[] = 'user_' . auth()->user()->id();
+                break;
+            case CacheLevel::COMPANY:
+                $tags[] = 'company_' . auth()->user()->company()->id();
+                break;
+        }
+
+        Cache::tags($tags)->flush();
+
+        return $this;
     }
 
 

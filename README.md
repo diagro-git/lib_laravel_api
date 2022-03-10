@@ -13,11 +13,11 @@ Deze bibliotheek wordt gebruikt als basis voor alle backend API facades.
 
 ## Development
 
-* Composer: `diagro/lib_laravel_api: "^1.7"`
+* Composer: `diagro/lib_laravel_api: "^1.8"`
 
 ## Production
 
-* Composer: `diagro/lib_laravel_api: "^1.7"`
+* Composer: `diagro/lib_laravel_api: "^1.8"`
 
 ## Example
 
@@ -32,10 +32,19 @@ class Backend extends \Diagro\API\API
             fn() => self::get(self::url("/$id"))->json()
         );
     }
+    
+    public static function create(array $data)
+    {
+        return self::post('/', $data)->deleteCache()->json();
+    }
 }
 ```
 
 ## Changelog
+
+### V1.8
+
+* **Update**: Verwijderen van cache na een update, delete of create
 
 ### V1.7
 
