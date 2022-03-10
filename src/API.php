@@ -4,7 +4,9 @@ namespace Diagro\API;
 use Closure;
 use Exception;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Http;
 use RuntimeException;
@@ -20,6 +22,13 @@ abstract class API
 
 
     protected static closure $failHandler;
+
+    protected static array $cached = [];
+
+
+    public function __construct(protected Response $response)
+    {
+    }
 
 
     public static function withFail(closure $failHandler)
@@ -85,35 +94,91 @@ abstract class API
     }
 
 
-    public static function get(string $path, array $headers = [], array $query = []): \Illuminate\Http\Client\Response
+    private static function performHttp(string $method, string $path, array $data = [], array $headers = []): Response
     {
+        if(! in_array($method, ['get', 'put', 'post', 'delete'])) {
+            throw new \InvalidArgumentException("The method $method is not allowed for API requests!");
+        }
+
         return self::makeHttp($headers)
-            ->get(static::url($path), $query)
+            ->$method(static::url($path), $data)
             ->onError(self::getFailHandler());
     }
 
 
-    public static function post(string $path, array $data, array $headers = []): \Illuminate\Http\Client\Response
+    public static function get(string $path, array $headers = [], array $query = []): static
     {
-        return self::makeHttp($headers)
-            ->post(static::url($path), $data)
-            ->onError(self::getFailHandler());
+        return new static(self::performHttp('get', $path, $query, $headers));
     }
 
 
-    public static function put(string $path, array $data, array $headers = []): \Illuminate\Http\Client\Response
+    public static function post(string $path, array $data, array $headers = []): static
     {
-        return self::makeHttp($headers)
-            ->put(static::url($path), $data)
-            ->onError(self::getFailHandler());
+        return new static(self::performHttp('post', $path, $data, $headers));
     }
 
 
-    public static function delete(string $path, array $data, array $headers = []): \Illuminate\Http\Client\Response
+    public static function put(string $path, array $data, array $headers = []): static
     {
-        return self::makeHttp($headers)
-            ->delete(static::url($path), $data)
-            ->onError(self::getFailHandler());
+        return new static(self::performHttp('put', $path, $data, $headers));
+    }
+
+
+    public static function delete(string $path, array $data, array $headers = []): static
+    {
+        return new static(self::performHttp('delete', $path, $data, $headers));
+    }
+
+
+    /**
+     * $cache_key example: self::concatToString(__FUNCTION__, $id)
+     * The classname is already prefixed on the cache key.
+     * If cache level is user, then key is prefixed with 'user_{user id}'
+     * If cache level is company, then key is prefixed with 'company_{company id}'
+     *
+     * @param string $cache_key
+     * @param Closure $closure
+     * @param int $ttl
+     * @param CacheLevel $cacheLevel
+     * @return mixed
+     */
+    protected static function cache(string $cache_key, closure $closure, int $ttl = 3600, CacheLevel $cacheLevel = CacheLevel::USER)
+    {
+        $key = self::concatToString(
+            str_replace('diagro_api_', '', strtolower(str_replace('\\', '_', static::class))),
+            $cache_key
+        );
+        $tags = [$key];
+
+        switch($cacheLevel)
+        {
+            case CacheLevel::USER:
+                $key = 'user_' . auth()->user()->id() . '_' . $key;
+                $tags[] = 'user_' . auth()->user()->id();
+                break;
+            case CacheLevel::COMPANY:
+                $key = 'company_' . auth()->user()->company()->id() . '_' . $key;
+                $tags[] = 'company_' . auth()->user()->company()->id();
+                break;
+        }
+
+        if(! isset(self::$cached[$key])) {
+            self::$cached[$key] = Cache::tags($tags)->remember($key, $ttl, $closure);
+        }
+
+        return self::$cached[$key];
+    }
+
+
+    protected static function concatToString(...$args)
+    {
+        return implode('_', $args);
+    }
+
+
+    public function json(?string $key = 'data'): array
+    {
+        return $this->response->json($key);
     }
 
 
@@ -123,7 +188,7 @@ abstract class API
      * @param string $path the url path
      * @return string
      */
-    static protected function url(string $path): string
+    protected static function url(string $path): string
     {
         throw new RuntimeException("Unimplemented!");
     }

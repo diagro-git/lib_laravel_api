@@ -13,13 +13,33 @@ Deze bibliotheek wordt gebruikt als basis voor alle backend API facades.
 
 ## Development
 
-* Composer: `diagro/lib_laravel_api: "^1.5"`
+* Composer: `diagro/lib_laravel_api: "^1.7"`
 
 ## Production
 
-* Composer: `diagro/lib_laravel_api: "^1.5"`
+* Composer: `diagro/lib_laravel_api: "^1.7"`
+
+## Example
+
+```php
+<?php
+class Backend extends \Diagro\API\API
+{
+    public static function endpoint(int $id)
+    {
+        return self::cache(
+            self::concatToString(__FUNCTION__, $id),
+            fn() => self::get(self::url("/$id"))->json()
+        );
+    }
+}
+```
 
 ## Changelog
+
+### V1.7
+
+* **Update**: Json response weg en cache ingebouwd.
 
 ### V1.6
 * **Bugfix**: getValue van queued cookie
