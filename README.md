@@ -13,11 +13,11 @@ Deze bibliotheek wordt gebruikt als basis voor alle backend API facades.
 
 ## Development
 
-* Composer: `diagro/lib_laravel_api: "^1.8"`
+* Composer: `diagro/lib_laravel_api: "^1.9"`
 
 ## Production
 
-* Composer: `diagro/lib_laravel_api: "^1.8"`
+* Composer: `diagro/lib_laravel_api: "^1.9"`
 
 ## Example
 

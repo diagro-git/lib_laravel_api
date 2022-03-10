@@ -133,32 +133,18 @@ abstract class API
     /**
      * $cache_key example: self::concatToString(__FUNCTION__, $id)
      * The classname is already prefixed on the cache key.
-     * If cache level is user, then key is prefixed with 'user_{user id}'
-     * If cache level is company, then key is prefixed with 'company_{company id}'
      *
-     * @param string $cache_key
+     * @param string $endpoint
      * @param Closure $closure
      * @param int $ttl
-     * @param CacheLevel $cacheLevel
      * @return mixed
      */
-    protected static function cache(string $endpoint, closure $closure, int $ttl = 3600, CacheLevel $cacheLevel = CacheLevel::USER)
+    protected static function cache(string $endpoint, closure $closure, int $ttl = 3600)
     {
+        $user = 'user_' . auth()->user()->id();
         $application = self::applicationCacheKey();
-        $key = self::concatToString($application, $endpoint);
-        $tags = [$application, $endpoint];
-
-        switch($cacheLevel)
-        {
-            case CacheLevel::USER:
-                $key = 'user_' . auth()->user()->id() . '_' . $key;
-                $tags[] = 'user_' . auth()->user()->id();
-                break;
-            case CacheLevel::COMPANY:
-                $key = 'company_' . auth()->user()->company()->id() . '_' . $key;
-                $tags[] = 'company_' . auth()->user()->company()->id();
-                break;
-        }
+        $key = self::concatToString($user, $application, $endpoint);
+        $tags = [$user, $application, $endpoint];
 
         if(! isset(self::$cached[$key])) {
             self::$cached[$key] = Cache::tags($tags)->remember($key, $ttl, $closure);
@@ -186,21 +172,11 @@ abstract class API
     }
 
 
-    public function deleteCache(?string $endpoint = null, CacheLevel $cacheLevel = CacheLevel::APPLICATION): static
+    public function deleteCache(?string $endpoint = null): static
     {
         $tags = [self::applicationCacheKey()];
         if($endpoint != null) {
             $tags[] = $endpoint;
-        }
-
-        switch($cacheLevel)
-        {
-            case CacheLevel::USER:
-                $tags[] = 'user_' . auth()->user()->id();
-                break;
-            case CacheLevel::COMPANY:
-                $tags[] = 'company_' . auth()->user()->company()->id();
-                break;
         }
 
         Cache::tags($tags)->flush();
