@@ -142,7 +142,7 @@ abstract class API
     protected static function cache(string $endpoint, closure $closure, ?int $ttl = null)
     {
         $user = 'user_' . auth()->user()->id();
-        $company = 'company_' . auth()->user()->company()->id;
+        $company = 'company_' . auth()->user()->company()->id();
         $application = self::applicationCacheKey();
         $key = self::concatToString($user, $company, $application, $endpoint);
         $tags = [$user, $company, $application, $endpoint];
