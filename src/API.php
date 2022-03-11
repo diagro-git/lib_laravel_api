@@ -136,16 +136,16 @@ abstract class API
      *
      * @param string $endpoint
      * @param Closure $closure
-     * @param int $ttl
+     * @param int|null $ttl
      * @return mixed
      */
     protected static function cache(string $endpoint, closure $closure, ?int $ttl = null)
     {
         $user = 'user_' . auth()->user()->id();
         $company = 'company_' . auth()->user()->company()->id();
-        $application = self::applicationCacheKey();
-        $key = self::concatToString($user, $company, $application, $endpoint);
-        $tags = [$user, $company, $application, $endpoint];
+        $application_section = self::applicationSectionCacheKey();
+        $key = self::concatToString($user, $company, $application_section, $endpoint);
+        $tags = [$user, $company, $application_section, $endpoint];
 
         //ttl
         if($ttl == null) {
@@ -160,9 +160,13 @@ abstract class API
     }
 
 
-    protected static function applicationCacheKey(): string
+    protected static function applicationSectionCacheKey(?string $class_name = null): string
     {
-        return str_replace('diagro_api_', '', strtolower(str_replace('\\', '_', static::class)));
+        if(empty($class_name) || ! class_exists($class_name)) {
+            $class_name = static::class;
+        }
+
+        return str_replace('diagro_api_', '', strtolower(str_replace('\\', '_', $class_name)));
     }
 
 
@@ -178,9 +182,9 @@ abstract class API
     }
 
 
-    public function deleteCache(?string $endpoint = null): static
+    public function deleteCache(?string $endpoint = null, ?string $class_name = null): static
     {
-        $tags = [self::applicationCacheKey()];
+        $tags = [self::applicationSectionCacheKey($class_name)];
         if($endpoint != null) {
             $tags[] = $endpoint;
         }

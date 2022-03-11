@@ -35,12 +35,19 @@ class Backend extends \Diagro\API\API
     
     public static function create(array $data)
     {
-        return self::post('/', $data)->deleteCache()->json();
+        return self::post('/', $data)
+            ->deleteCache()
+            ->deleteCache(class_name: OtherSection::class)
+            ->json();
     }
 }
 ```
 
 ## Changelog
+
+### V1.11
+
+* **Update**: mogelijkheid om cache van andere applicatie secties te verwijderen.
 
 ### V1.10
 
