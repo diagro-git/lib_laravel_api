@@ -42,6 +42,11 @@ class Backend extends \Diagro\API\API
 
 ## Changelog
 
+### V1.10
+
+* **Update**: env variabele **DIAGRO_API_CACHE_TTL** om standaard ttl in te stellen van de cache per app
+* **Update**: cache wordt bijgehouden per user/bedrijf ipv user niveau. Per cache item zijn nu vier tags gekoppeld.
+
 ### V1.8
 
 * **Update**: Verwijderen van cache na een update, delete of create

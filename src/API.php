@@ -139,12 +139,18 @@ abstract class API
      * @param int $ttl
      * @return mixed
      */
-    protected static function cache(string $endpoint, closure $closure, int $ttl = 3600)
+    protected static function cache(string $endpoint, closure $closure, ?int $ttl = null)
     {
         $user = 'user_' . auth()->user()->id();
+        $company = 'company_' . auth()->user()->company()->id;
         $application = self::applicationCacheKey();
-        $key = self::concatToString($user, $application, $endpoint);
-        $tags = [$user, $application, $endpoint];
+        $key = self::concatToString($user, $company, $application, $endpoint);
+        $tags = [$user, $company, $application, $endpoint];
+
+        //ttl
+        if($ttl == null) {
+            $ttl = env('DIAGRO_API_CACHE_TTL', 3600);
+        }
 
         if(! isset(self::$cached[$key])) {
             self::$cached[$key] = Cache::tags($tags)->remember($key, $ttl, $closure);
