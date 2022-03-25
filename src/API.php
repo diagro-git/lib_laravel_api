@@ -94,7 +94,8 @@ class API
 
     private static function makeHttp(array $headers): PendingRequest
     {
-        return Http::withHeaders(self::makeHeaders($headers))->timeout(5);
+        $timeout = env('DIAGRO_API_REQUEST_TIMEOUT', 30);
+        return Http::withHeaders(self::makeHeaders($headers))->timeout($timeout);
     }
 
 

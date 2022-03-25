@@ -45,6 +45,10 @@ class Backend extends \Diagro\API\API
 
 ## Changelog
 
+### V1.13
+
+* **Update**: timeout voor request is standaad 30 seconden en instelbaar via `DIAGRO_API_REQUEST_TIMEOUT` env in seconden.
+
 ### V1.12
 
 * **Update**: withHeaders method om extra headers in te stellen bij een API endpoint
@@ -56,7 +60,7 @@ class Backend extends \Diagro\API\API
 
 ### V1.10
 
-* **Update**: env variabele **DIAGRO_API_CACHE_TTL** om standaard ttl in te stellen van de cache per app
+* **Update**: env variabele `DIAGRO_API_CACHE_TTL` om standaard ttl in te stellen van de cache per app in seconden.
 * **Update**: cache wordt bijgehouden per user/bedrijf ipv user niveau. Per cache item zijn nu vier tags gekoppeld.
 
 ### V1.8
