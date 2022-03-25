@@ -45,6 +45,11 @@ class Backend extends \Diagro\API\API
 
 ## Changelog
 
+### V1.12
+
+* **Update**: withHeaders method om extra headers in te stellen bij een API endpoint
+* **Update**: fields method om fields te kiezen bij endpoint
+
 ### V1.11
 
 * **Update**: mogelijkheid om cache van andere applicatie secties te verwijderen.

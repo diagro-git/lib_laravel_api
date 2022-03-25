@@ -25,21 +25,25 @@ abstract class API
 
     protected static array $cached = [];
 
+    protected static array $headers = [];
 
-    public function __construct(protected Response $response)
+
+    protected function __construct(protected ?Response $response = null)
     {
     }
 
 
-    public static function withFail(closure $failHandler)
+    public static function withFail(closure $failHandler): static
     {
         self::$failHandler = $failHandler;
+        return new static;
     }
 
 
-    public static function defaultFail()
+    public static function defaultFail(): static
     {
         self::$failHandler = function($response) { };
+        return new static;
     }
 
 
@@ -84,7 +88,7 @@ abstract class API
             'x-app-id' => $app_id,
         ];
 
-        return array_merge($headers, $defaultHeaders);
+        return array_merge($defaultHeaders, self::$headers, $headers);
     }
 
 
@@ -192,6 +196,20 @@ abstract class API
         Cache::tags($tags)->flush();
 
         return $this;
+    }
+
+
+    public static function withHeaders(array $headers): static
+    {
+        self::$headers = $headers;
+        return new static;
+    }
+
+
+    public static function fields(array $fields): static
+    {
+        self::$headers['x-fields'] = implode(',', $fields);
+        return new static;
     }
 
 
