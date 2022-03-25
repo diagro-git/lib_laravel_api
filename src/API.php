@@ -17,7 +17,7 @@ use RuntimeException;
  *
  * @package Diagro\API\
  */
-abstract class API
+class API
 {
 
 
