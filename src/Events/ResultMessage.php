@@ -11,13 +11,13 @@ class ResultMessage implements ShouldBroadcast
     use SerializesModels;
 
 
-    public function __construct(public array $data)
+    public function __construct(public string $identifier, public array $data)
     {
     }
 
     public function broadcastAs(): string
     {
-
+        return $this->identifier;
     }
 
     public function broadcastOn(): PrivateChannel

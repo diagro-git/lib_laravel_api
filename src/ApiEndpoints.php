@@ -25,6 +25,7 @@ trait ApiEndpoints
      * Get an endpoint definition instance for given path and request method.
      * The follow properties in the definition are set:
      *
+     *  - identifier = the application_section cache key
      *  - url
      *  - method
      *  - bearer_token
@@ -42,7 +43,7 @@ trait ApiEndpoints
      */
     protected function factoryDefinition(string $path, RequestMethod $method): EndpointDefinition
     {
-        $definition = (new EndpointDefinition($this->url($path), $method, $this->getToken(), $this->getAppId()))
+        $definition = (new EndpointDefinition($this->applicationSectionCacheKey(), $this->url($path), $method, $this->getToken(), $this->getAppId()))
             ->setTimeout(env('DIAGRO_API_REQUEST_TIMEOUT', 30))
             ->setCacheTTL(env('DIAGRO_API_CACHE_TTL', 3600));
 

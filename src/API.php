@@ -30,8 +30,7 @@ class API
 
     public function __construct(protected EndpointDefinition $definition)
     {
-        $url = parse_url($this->definition->url);
-        $endpoint_cache_key = str_replace('/', '_', Arr::get($url, 'path', ''));
+        $endpoint_cache_key = str_replace('/', '_', Arr::get(parse_url($this->definition->url, PHP_URL_PATH), 'path', ''));
         foreach($this->definition->query as $k => $v) {
             $endpoint_cache_key .= '_' . $k . '_' . $v;
         }

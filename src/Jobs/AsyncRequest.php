@@ -28,7 +28,7 @@ class AsyncRequest implements ShouldQueue
         $result = $api->{$this->definition->method->value}();
 
         //send out the message to the websocket through eventbus
-        event(new ResultMessage($result));
+        event(new ResultMessage($this->definition->identifier, $result));
     }
 
 }
