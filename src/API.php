@@ -102,7 +102,7 @@ class API
     public function get(): array
     {
         $key = $this->definition->getCacheKey();
-        if(! isset(self::$cached[$key])) {
+        if(! isset(self::$cached[$key]) || empty(self::$cached[$key])) {
             self::$cached[$key] = Cache::tags($this->definition->cache_tags)->remember($key, $this->definition->cache_ttl, fn() => $this->perform()->json($this->definition->json_key));
         }
 
