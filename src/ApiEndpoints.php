@@ -128,18 +128,4 @@ trait ApiEndpoints
     }
 
 
-    /**
-     * Call class functions in a static way.
-     *
-     * @param string $name
-     * @param array $arguments
-     * @return mixed
-     */
-    public static function __callStatic(string $name, array $arguments)
-    {
-        $self = new static();
-        return $self->{$name}($arguments);
-    }
-
-
 }
