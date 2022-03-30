@@ -101,14 +101,16 @@ class EndpointDefinition
 
     public function updateEndpointCacheKey(): void
     {
-        $endpoint_cache_key = str_replace('/', '_', Arr::get(parse_url($this->url, PHP_URL_PATH), 'path', ''));
+        $endpoint_cache_key = str_replace('/', '_', Arr::get(parse_url($this->url), 'path', ''));
         if(str_starts_with($endpoint_cache_key, '_')) {
             $endpoint_cache_key = substr($endpoint_cache_key, 1);
         }
         //remove cache tag that starts with this part
-        foreach($this->cache_tags as $idx => $tag) {
-            if(str_contains($tag, $endpoint_cache_key)) {
-                unset($this->cache_tags[$idx]);
+        if(! empty($endpoint_cache_key)) {
+            foreach ($this->cache_tags as $idx => $tag) {
+                if (str_contains($tag, $endpoint_cache_key)) {
+                    unset($this->cache_tags[$idx]);
+                }
             }
         }
 
