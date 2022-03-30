@@ -15,10 +15,10 @@ trait ApiEndpoints
     /**
      * Construct the complete URL with given path.
      *
-     * @param $path
-     * @return mixed
+     * @param string $path
+     * @return string
      */
-    abstract protected function url($path);
+    abstract protected function url(string $path): string;
 
 
     /**
