@@ -116,8 +116,13 @@ class EndpointDefinition
         foreach($this->query as $k => $v) {
             $endpoint_cache_key .= '_' . $k . '_' . $v;
         }
+        if(str_starts_with($endpoint_cache_key, '_')) {
+            $endpoint_cache_key = substr($endpoint_cache_key, 1);
+        }
 
-        $this->addCacheTag($endpoint_cache_key);
+        if(! empty($endpoint_cache_key)) {
+            $this->addCacheTag($endpoint_cache_key);
+        }
     }
 
     public function setFields(array $fields): self
