@@ -48,7 +48,7 @@ trait ApiEndpoints
             ->setCacheTTL(env('DIAGRO_API_CACHE_TTL', 3600));
 
         if($method == RequestMethod::GET) {
-            $definition->setCacheTags($this->getCacheTags());
+            foreach($this->getCacheTags() as $tag) $definition->addCacheTag($tag);
         } else {
             $definition->addCacheTagDelete($this->applicationSectionCacheKey());
         }
