@@ -41,7 +41,7 @@ class API
 
     public static function async(EndpointDefinition $definition): array
     {
-        AsyncRequest::dispatch($definition);
+        AsyncRequest::dispatch($definition)->afterResponse();
         return [];
     }
 
