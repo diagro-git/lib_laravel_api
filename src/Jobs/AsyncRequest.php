@@ -36,15 +36,14 @@ class AsyncRequest implements ShouldQueue
         $result = $api->{$this->definition->method->value}();
 
         //send out the message to the websocket through eventbus
+        $max_attemps = env('DIAGRO_API_ASYNC_MAX_ATTEMPS', 10);
         $attemps = 0;
-        while(! $this->hasUsers() && $attemps < 5) {
-            usleep(500*1000);
-            $attemps++;
-        }
-        if($attemps < 5) {
+        while(! $this->hasUsers() && $attemps++ < $max_attemps) usleep(500*1000);
+
+        if($attemps < $max_attemps) {
             event(new ResultMessage($this->identifier, $result, $this->user_id, $this->company_id));
         } else {
-            logger()->error("Attemps 5 reached!");
+            logger()->error("Attemps $max_attemps reached!");
         }
     }
 
