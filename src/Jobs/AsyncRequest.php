@@ -8,6 +8,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Pusher\Pusher;
 
 class AsyncRequest implements ShouldQueue
 {
@@ -28,7 +29,24 @@ class AsyncRequest implements ShouldQueue
         $result = $api->{$this->definition->method->value}();
 
         //send out the message to the websocket through eventbus
-        event(new ResultMessage($this->definition->identifier, $result));
+        $attemps = 0;
+        while(! $this->hasUsers() && $attemps < 5) {
+            usleep(500);
+            $attemps++;
+        }
+        if($attemps < 5) {
+            event(new ResultMessage($this->definition->identifier, $result));
+        } else {
+            logger()->error("Attemps 5 reached!");
+        }
+    }
+
+    private function hasUsers(): bool
+    {
+        $pusher = new Pusher(env('PUSHER_APP_KEY'), env('PUSHER_APP_SECRET'), env('PUSHER_APP_ID'), ['cluster' => env('PUSHER_APP_CLUSTER')]);
+        $info = $pusher->getChannelInfo('private-api-result');
+        logger()->debug('info: ' . $info);
+        return ($info->user_count > 0);
     }
 
 }
