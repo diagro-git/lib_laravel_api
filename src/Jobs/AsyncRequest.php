@@ -31,7 +31,7 @@ class AsyncRequest implements ShouldQueue
         //send out the message to the websocket through eventbus
         $attemps = 0;
         while(! $this->hasUsers() && $attemps < 5) {
-            usleep(500);
+            usleep(500*1000);
             $attemps++;
         }
         if($attemps < 5) {
