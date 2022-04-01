@@ -89,7 +89,6 @@ class EndpointDefinition
 
 
     public function __construct(
-        public string $identifier,
         public string $url,
         public RequestMethod $method,
         public string $bearer_token,

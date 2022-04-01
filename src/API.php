@@ -39,9 +39,9 @@ class API
     }
 
 
-    public static function async(EndpointDefinition $definition): array
+    public static function async(EndpointDefinition $definition, string $identifier): array
     {
-        AsyncRequest::dispatch($definition)->afterResponse();
+        AsyncRequest::dispatch($definition, $identifier)->afterResponse();
         return [];
     }
 

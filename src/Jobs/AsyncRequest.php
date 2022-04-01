@@ -16,10 +16,17 @@ class AsyncRequest implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable;
 
 
+    private int $user_id;
+
+    private int $company_id;
+
     public function __construct(
-        public EndpointDefinition $definition
+        public EndpointDefinition $definition,
+        public string $identifier
     )
     {
+        $this->user_id = auth()->user()->id();
+        $this->company_id = auth()->user()->company()->id();
     }
 
 
@@ -35,7 +42,7 @@ class AsyncRequest implements ShouldQueue
             $attemps++;
         }
         if($attemps < 5) {
-            event(new ResultMessage($this->definition->identifier, $result));
+            event(new ResultMessage($this->identifier, $result, $this->user_id, $this->company_id));
         } else {
             logger()->error("Attemps 5 reached!");
         }
@@ -44,7 +51,7 @@ class AsyncRequest implements ShouldQueue
     private function hasUsers(): bool
     {
         $pusher = new Pusher(env('PUSHER_APP_KEY'), env('PUSHER_APP_SECRET'), env('PUSHER_APP_ID'), ['cluster' => env('PUSHER_APP_CLUSTER')]);
-        $info = $pusher->getChannelInfo('private-api-result');
+        $info = $pusher->getChannelInfo('private-Diagro.API.Async.' . $this->user_id . '.' . $this->company_id);
         return $info->occupied;
     }
 

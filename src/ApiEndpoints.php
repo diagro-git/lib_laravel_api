@@ -43,7 +43,7 @@ trait ApiEndpoints
      */
     protected function factoryDefinition(string $path, RequestMethod $method): EndpointDefinition
     {
-        $definition = (new EndpointDefinition($this->applicationSectionCacheKey(), $this->url($path), $method, $this->getToken(), $this->getAppId()))
+        $definition = (new EndpointDefinition($this->url($path), $method, $this->getToken(), $this->getAppId()))
             ->setTimeout(env('DIAGRO_API_REQUEST_TIMEOUT', 30))
             ->setCacheTTL(env('DIAGRO_API_CACHE_TTL', 3600));
 

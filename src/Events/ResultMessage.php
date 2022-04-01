@@ -11,7 +11,7 @@ class ResultMessage implements ShouldBroadcast
     use SerializesModels;
 
 
-    public function __construct(public string $identifier, public array $data)
+    public function __construct(private string $identifier, public array $data, private int $user_id, private int $company_id)
     {
     }
 
@@ -22,7 +22,7 @@ class ResultMessage implements ShouldBroadcast
 
     public function broadcastOn(): PrivateChannel
     {
-        return new PrivateChannel('api-result');
+        return new PrivateChannel('Diagro.API.Async.' . $this->user_id . '.' . $this->company_id);
     }
 
 }
