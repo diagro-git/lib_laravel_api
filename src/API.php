@@ -94,7 +94,7 @@ class API
     {
         $method = $this->definition->method->value;
         return $this->makeHttp()
-            ->$method($this->definition->url, ($method == RequestMethod::GET ? $this->definition->query : $this->definition->data))
+            ->$method($this->definition->url, ($method == RequestMethod::GET->value ? $this->definition->query : $this->definition->data))
             ->onError(self::getFailHandler());
     }
 
