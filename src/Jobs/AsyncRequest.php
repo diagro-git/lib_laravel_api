@@ -45,7 +45,7 @@ class AsyncRequest implements ShouldQueue
     {
         $pusher = new Pusher(env('PUSHER_APP_KEY'), env('PUSHER_APP_SECRET'), env('PUSHER_APP_ID'), ['cluster' => env('PUSHER_APP_CLUSTER')]);
         $info = $pusher->getChannelInfo('private-api-result');
-        logger()->debug('info: ' . json_decode(json_encode($info), true));
+        logger()->debug('info: ' . $info->user_count);
         return ($info->user_count > 0);
     }
 
