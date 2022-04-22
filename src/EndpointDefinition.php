@@ -115,6 +115,7 @@ class EndpointDefinition
 
         //concat the query part
         foreach($this->query as $k => $v) {
+            if(is_array($v)) $v = implode('_', $v);
             $endpoint_cache_key .= '_' . $k . '_' . $v;
         }
         if(str_starts_with($endpoint_cache_key, '_')) {
