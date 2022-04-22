@@ -153,7 +153,7 @@ class EndpointDefinition
         return $this;
     }
 
-    public function addQuery(string $name, string $value): self
+    public function addQuery(string $name, $value): self
     {
         $this->query[$name] = $value;
         $this->updateEndpointCacheKey();
