@@ -47,6 +47,10 @@ class Backend extends \Diagro\API\API
 
 ### V1.13
 
+* **Update**: API#backend(...) om interne API calls te maken met diagro backends onderling.
+
+### V1.13
+
 * **Update**: timeout voor request is standaad 30 seconden en instelbaar via `DIAGRO_API_REQUEST_TIMEOUT` env in seconden.
 
 ### V1.12

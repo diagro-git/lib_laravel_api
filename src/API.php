@@ -46,6 +46,13 @@ class API
     }
 
 
+    public static function backend(EndpointDefinition $definition): array
+    {
+        $definition->addHeader('x-backend-token', env('DIAGRO_BACKEND_TOKEN'));
+        return self::sync($definition);
+    }
+
+
     public static function withFail(closure $failHandler)
     {
         self::$failHandler = $failHandler;
