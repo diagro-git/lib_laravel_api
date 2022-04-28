@@ -49,8 +49,6 @@ trait ApiEndpoints
 
         if($method == RequestMethod::GET) {
             foreach($this->getCacheTags() as $tag) $definition->addCacheTag($tag);
-        } else {
-            $definition->addCacheTagDelete($this->applicationSectionCacheKey());
         }
 
         return $definition;

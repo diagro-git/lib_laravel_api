@@ -11,6 +11,9 @@ class ResultMessage implements ShouldBroadcast
     use SerializesModels;
 
 
+    public $queue = 'events_result';
+
+
     public function __construct(private string $identifier, public array $data, private int $user_id, private int $company_id)
     {
     }

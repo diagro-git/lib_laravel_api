@@ -65,14 +65,6 @@ class EndpointDefinition
     public int $cache_ttl = 3600;
 
     /**
-     * Which cache entries with given cache tags are removed after
-     * successfull request.
-     *
-     * @var array
-     */
-    public array $cache_tags_delete = [];
-
-    /**
      * Request timeout in seconds.
      * Default: 30 seconds.
      *
@@ -122,14 +114,20 @@ class EndpointDefinition
             $endpoint_cache_key = substr($endpoint_cache_key, 1);
         }
 
+        //concat the fields
+        foreach($this->fields as $field) {
+            $endpoint_cache_key .= '_' . $field;
+        }
+
         if(! empty($endpoint_cache_key)) {
-            $this->addCacheTag($endpoint_cache_key);
+            $this->cache_key = $endpoint_cache_key;
         }
     }
 
     public function setFields(array $fields): self
     {
         $this->fields = array_unique($fields);
+        $this->updateEndpointCacheKey();
         return $this;
     }
 
@@ -137,6 +135,7 @@ class EndpointDefinition
     {
         if(! in_array($field, $this->fields)) {
             $this->fields[] = $field;
+            $this->updateEndpointCacheKey();
         }
         return $this;
     }
@@ -202,20 +201,6 @@ class EndpointDefinition
     public function setCacheTTL(int $cache_ttl): self
     {
         $this->cache_ttl = $cache_ttl;
-        return $this;
-    }
-
-    public function setCacheTagsDelete(array $cache_tags_delete): self
-    {
-        $this->cache_tags_delete = array_unique($cache_tags_delete);
-        return $this;
-    }
-
-    public function addCacheTagDelete(string $tag): self
-    {
-        if(! in_array($tag, $this->cache_tags_delete)) {
-            $this->cache_tags_delete[] = $tag;
-        }
         return $this;
     }
 

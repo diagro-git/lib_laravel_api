@@ -110,6 +110,8 @@ class API
     {
         $key = $this->definition->getCacheKey();
         if(! isset(self::$cached[$key]) || empty(self::$cached[$key])) {
+            //Send the tags and key to the backend.
+            $this->definition->addHeader('X-Diagro-Cache', sprintf('%s;%s', $key, implode(' ', $this->definition->cache_tags)));
             self::$cached[$key] = Cache::tags($this->definition->cache_tags)->remember($key, $this->definition->cache_ttl, fn() => $this->perform()->json($this->definition->json_key));
         }
 
@@ -120,30 +122,33 @@ class API
     public function post(): array
     {
         $response = $this->perform();
-        if($response->successful() && count($this->definition->cache_tags_delete)) {
-            Cache::tags($this->definition->cache_tags_delete)->flush();
+        $json = $response->json($this->definition->json_key);
+        if($json == null) {
+            $json = ['body' => $response->body()];
         }
-        return $response->json($this->definition->json_key);
+        return $json;
     }
 
 
     public function put(): array
     {
         $response = $this->perform();
-        if($response->successful() && count($this->definition->cache_tags_delete)) {
-            Cache::tags($this->definition->cache_tags_delete)->flush();
+        $json = $response->json($this->definition->json_key);
+        if($json == null) {
+            $json = ['body' => $response->body()];
         }
-        return $response->json($this->definition->json_key);
+        return $json;
     }
 
 
     public function delete(): array
     {
         $response = $this->perform();
-        if($response->successful() && count($this->definition->cache_tags_delete)) {
-            Cache::tags($this->definition->cache_tags_delete)->flush();
+        $json = $response->json($this->definition->json_key);
+        if($json == null) {
+            $json = ['body' => $response->body()];
         }
-        return $response->json($this->definition->json_key);
+        return $json;
     }
 
 
