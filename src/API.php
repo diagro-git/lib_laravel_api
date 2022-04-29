@@ -87,6 +87,11 @@ class API
             $defaultHeaders['x-fields'] = implode(',', $this->definition->fields);
         }
 
+        $request = request();
+        if($request->hasHeader('x-diagro-cache')) {
+            $defaultHeaders['x-diagro-cache'] = $request->header('x-diagro-cache');
+        }
+
         return array_merge($defaultHeaders, $this->definition->headers);
     }
 
