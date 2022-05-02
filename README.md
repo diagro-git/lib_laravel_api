@@ -45,6 +45,10 @@ class Backend extends \Diagro\API\API
 
 ## Changelog
 
+### V1.22
+
+* **Update**: Nieuwe event library
+
 ### V1.13
 
 * **Update**: API#backend(...) om interne API calls te maken met diagro backends onderling.

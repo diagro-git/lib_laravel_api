@@ -2,18 +2,25 @@
     "name": "diagro/lib_laravel_api",
     "description": "Library for writing API facades for other Laravel backends",
     "type": "library",
-    "version": "1.21",
+    "version": "1.22",
     "authors": [
         {
             "name": "Stijn Leenknegt",
             "email": "stijn@diagro.be"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/diagro-git/lib_laravel_event.git"
+        }
+    ],
     "require": {
         "laravel/framework":"^9.0",
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.4",
-        "pusher/pusher-php-server": "^7.0"
+        "pusher/pusher-php-server": "^7.0",
+        "diagro/lib_laravel_event": "^1.0"
     },
     "autoload": {
         "psr-4": {
