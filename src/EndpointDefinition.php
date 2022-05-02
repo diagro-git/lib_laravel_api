@@ -172,6 +172,11 @@ class EndpointDefinition
         return $this;
     }
 
+    public function hasHeader(string $name): bool
+    {
+        return Arr::has($this->headers, $name);
+    }
+
     public function setUser(Authenticatable $user): self
     {
         $this->user = $user;

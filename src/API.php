@@ -87,10 +87,10 @@ class API
             $defaultHeaders['x-fields'] = implode(',', $this->definition->fields);
         }
 
-        /*$request = request();
+        $request = request();
         if($request->hasHeader('x-diagro-cache')) {
             $defaultHeaders['x-diagro-cache'] = $request->header('x-diagro-cache');
-        }*/
+        }
 
         return array_merge($defaultHeaders, $this->definition->headers);
     }
@@ -116,7 +116,7 @@ class API
         $key = $this->definition->getCacheKey();
         if(! isset(self::$cached[$key]) || empty(self::$cached[$key])) {
             //Send the tags and key to the backend.
-            if(count($this->definition->cache_tags) > 0 && ! empty( $this->definition->cache_key)) {
+            if(count($this->definition->cache_tags) > 0 && ! empty( $this->definition->cache_key) && ! $this->definition->hasHeader('x-diagro-cache')) {
                 $this->definition->addHeader('x-diagro-cache', sprintf('%s;%s', $key, implode(' ', $this->definition->cache_tags)));
             }
             self::$cached[$key] = Cache::tags($this->definition->cache_tags)->remember($key, $this->definition->cache_ttl, fn() => $this->perform()->json($this->definition->json_key));
