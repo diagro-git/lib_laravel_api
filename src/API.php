@@ -90,6 +90,8 @@ class API
         $request = request();
         if($request->hasHeader('x-diagro-cache')) {
             $defaultHeaders['x-diagro-cache'] = $request->header('x-diagro-cache');
+        } elseif(count($this->definition->cache_tags) > 0 && ! empty( $this->definition->cache_key)) {
+            $defaultHeaders['x-diagro-cache'] = $this->definition->cache_key . ';' . implode(' ', $this->definition->cache_tags);
         }
 
         return array_merge($defaultHeaders, $this->definition->headers);
