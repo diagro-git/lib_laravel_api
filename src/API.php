@@ -127,7 +127,7 @@ class API
             }
 
             //perform the get request
-            self::$cached[$key] = Cache::tags($this->definition->cache_tags)->remember($key, $this->definition->cache_ttl, fn() => $this->perform()->json($this->definition->json_key));
+            self::$cached[$key] = $this->perform()->json($this->definition->json_key);
         }
 
         return self::$cached[$key];

@@ -2,7 +2,7 @@
     "name": "diagro/lib_laravel_api",
     "description": "Library for writing API facades for other Laravel backends",
     "type": "library",
-    "version": "1.26",
+    "version": "1.27",
     "authors": [
         {
             "name": "Stijn Leenknegt",
