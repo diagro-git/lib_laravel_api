@@ -137,7 +137,7 @@ class API
             self::$cached[$key] = $this->perform()->json($this->definition->json_key);
         }
 
-        return self::$cached[$key];
+        return self::$cached[$key] ?? [];
     }
 
 
