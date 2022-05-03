@@ -126,10 +126,11 @@ class API
         $key = $this->definition->getCacheKey();
         if(! isset(self::$cached[$key]) || empty(self::$cached[$key])) {
             //Send the tags and key to the backend.
-            if(! empty( $this->definition->getCacheKey()) && ! $this->definition->hasHeader('x-diagro-cache-key')) {
+            $request = request();
+            if(! empty( $this->definition->getCacheKey()) && ! $this->definition->hasHeader('x-diagro-cache-key') && ! $request->hasHeader('x-diagro-cache-key')) {
                 $this->definition->addHeader('x-diagro-cache-key', $this->definition->getCacheKey());
             }
-            if(! empty( $this->definition->cache_tags) && ! $this->definition->hasHeader('x-diagro-cache-tags')) {
+            if(! empty( $this->definition->cache_tags) && ! $this->definition->hasHeader('x-diagro-cache-tags') && ! $request->hasHeader('x-diagro-cache-tags')) {
                 $this->definition->addHeader('x-diagro-cache-tags', implode(' ', $this->definition->cache_tags));
             }
 
