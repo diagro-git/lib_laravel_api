@@ -75,9 +75,9 @@ class EndpointDefinition
     /**
      * The name of the JSON key in the response.
      *
-     * @var string
+     * @var string|null
      */
-    public string $json_key = 'data';
+    public ?string $json_key = 'data';
 
 
     public function __construct(
@@ -215,7 +215,7 @@ class EndpointDefinition
         return $this;
     }
 
-    public function setJsonKey(string $json_key): self
+    public function setJsonKey(?string $json_key): self
     {
         $this->json_key = $json_key;
         return $this;
