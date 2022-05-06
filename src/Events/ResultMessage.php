@@ -16,6 +16,11 @@ class ResultMessage implements ShouldBroadcast
         $this->user_id = auth()->user()->id();
     }
 
+    public function broadcastQueue()
+    {
+        return 'events';
+    }
+
     public function broadcastAs(): string
     {
         return $this->identifier;
