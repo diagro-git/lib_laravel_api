@@ -27,6 +27,8 @@ class AsyncRequest implements ShouldQueue
     {
         $this->company_id = auth()->user()->company()->id();
         $this->user_id = auth()->user()->id();
+
+        $this->onQueue('async');
     }
 
 
@@ -36,7 +38,7 @@ class AsyncRequest implements ShouldQueue
         $result = $api->{$this->definition->method->value}();
 
         //send out the message to the websocket through eventbus
-        event(new ResultMessage($this->identifier, $result));
+        event(new ResultMessage($this->identifier, $result, $this->company_id, $this->user_id));
     }
 
 }
