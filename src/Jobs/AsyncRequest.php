@@ -15,11 +15,18 @@ class AsyncRequest implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable;
 
 
+    private $company_id;
+
+    private $user_id;
+
+
     public function __construct(
         public EndpointDefinition $definition,
         public string $identifier
     )
     {
+        $this->company_id = auth()->user()->company()->id();
+        $this->user_id = auth()->user()->id();
     }
 
 

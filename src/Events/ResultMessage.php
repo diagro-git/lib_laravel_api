@@ -11,9 +11,9 @@ class ResultMessage extends CompanyUserBroadcast implements ShouldBroadcast
     use SerializesModels;
 
 
-    public function __construct(private string $identifier, public array $data)
+    public function __construct(private string $identifier, public array $data, $company_id, $user_id)
     {
-        parent::__construct();
+        parent::__construct($company_id, $user_id);
     }
 
     public function broadcastAs(): string
