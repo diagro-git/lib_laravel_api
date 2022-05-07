@@ -2,16 +2,9 @@
 namespace Diagro\API;
 
 use Closure;
-use Diagro\API\Jobs\AsyncRequest;
-use Exception;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Http;
-use RuntimeException;
 
 
 /**
@@ -41,8 +34,9 @@ class API
 
     public static function async(EndpointDefinition $definition, string $identifier): array
     {
-        AsyncRequest::dispatch($definition, $identifier);
-        return [];
+        $definition->addHeader('X-Diagro-Async', $identifier);
+        $api = new self($definition);
+        return $api->{$definition->method->value}();
     }
 
 
@@ -50,13 +44,6 @@ class API
     {
         $definition->addHeader('x-backend-token', env('DIAGRO_BACKEND_TOKEN'));
         return self::sync($definition);
-    }
-
-
-    public static function backendAsync(EndpointDefinition $definition, string $identifier): array
-    {
-        $definition->addHeader('x-backend-token', env('DIAGRO_BACKEND_TOKEN'));
-        return self::async($definition, $identifier);
     }
 
 
@@ -94,14 +81,6 @@ class API
             $defaultHeaders['x-fields'] = implode(',', $this->definition->fields);
         }
 
-        $request = request();
-        if($request->hasHeader('x-diagro-cache-key')) {
-            $defaultHeaders['x-diagro-cache-key'] = $request->header('x-diagro-cache-key');
-        }
-        if($request->hasHeader('x-diagro-cache-tags')) {
-            $defaultHeaders['x-diagro-cache-tags'] = $request->header('x-diagro-cache-tags');
-        }
-
         return array_merge($defaultHeaders, $this->definition->headers);
     }
 
@@ -125,12 +104,10 @@ class API
     {
         $key = $this->definition->getCacheKey();
         if(! isset(self::$cached[$key]) || empty(self::$cached[$key])) {
-            //Send the tags and key to the backend.
-            $request = request();
-            if(! empty( $this->definition->getCacheKey()) && ! $this->definition->hasHeader('x-diagro-cache-key') && ! $request->hasHeader('x-diagro-cache-key')) {
+            if(! empty( $this->definition->getCacheKey()) && ! $this->definition->hasHeader('x-diagro-cache-key')) {
                 $this->definition->addHeader('x-diagro-cache-key', $this->definition->getCacheKey());
             }
-            if(! empty( $this->definition->cache_tags) && ! $this->definition->hasHeader('x-diagro-cache-tags') && ! $request->hasHeader('x-diagro-cache-tags')) {
+            if(! empty( $this->definition->cache_tags) && ! $this->definition->hasHeader('x-diagro-cache-tags')) {
                 $this->definition->addHeader('x-diagro-cache-tags', implode(' ', $this->definition->cache_tags));
             }
 
