@@ -162,13 +162,15 @@ class EndpointDefinition
 
     public function setHeaders(array $headers): self
     {
-        $this->headers = $headers;
+        foreach($headers as $name => $value) {
+            $this->addHeader($name, $value);
+        }
         return $this;
     }
 
     public function addHeader(string $name, string $value): self
     {
-        $this->headers[$name] = $value;
+        $this->headers[strtolower($name)] = $value;
         return $this;
     }
 
