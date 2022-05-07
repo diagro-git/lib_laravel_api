@@ -32,14 +32,6 @@ class API
     }
 
 
-    public static function async(EndpointDefinition $definition, string $identifier): array
-    {
-        $definition->addHeader('X-Diagro-Async', $identifier);
-        $api = new self($definition);
-        return $api->{$definition->method->value}();
-    }
-
-
     public static function backend(EndpointDefinition $definition): array
     {
         $definition->addHeader('x-backend-token', env('DIAGRO_BACKEND_TOKEN'));
