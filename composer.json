@@ -9,18 +9,10 @@
             "email": "stijn@diagro.be"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/diagro-git/lib_laravel_event.git"
-        }
-    ],
     "require": {
         "laravel/framework":"^9.0",
         "php": "^8.1",
-        "guzzlehttp/guzzle": "^7.4",
-        "pusher/pusher-php-server": "^7.0",
-        "diagro/lib_laravel_event": "^1.0"
+        "guzzlehttp/guzzle": "^7.4"
     },
     "autoload": {
         "psr-4": {
