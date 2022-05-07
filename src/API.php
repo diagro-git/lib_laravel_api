@@ -73,6 +73,16 @@ class API
             $defaultHeaders['x-fields'] = implode(',', $this->definition->fields);
         }
 
+        $request = request();
+        $refs = $request->header('x-diagro-cache-refs', '');
+        if($request->hasHeader('x-diagro-cache-key') && $request->hasHeader('x-diagro-cache-tags')) {
+            if(! empty($refs)) {
+                $refs .= ';';
+            }
+            $refs .= $request->header('x-diagro-cache-key') . ':' . $request->header('x-diagro-cache-tags');
+            $defaultHeaders['x-diagro-cache-refs'] = $refs;
+        }
+
         return array_merge($defaultHeaders, $this->definition->headers);
     }
 
@@ -100,7 +110,7 @@ class API
                 $this->definition->addHeader('x-diagro-cache-key', $this->definition->getCacheKey());
             }
             if(! empty( $this->definition->cache_tags) && ! $this->definition->hasHeader('x-diagro-cache-tags')) {
-                $this->definition->addHeader('x-diagro-cache-tags', implode(' ', $this->definition->cache_tags));
+                $this->definition->addHeader('x-diagro-cache-tags', implode(',', $this->definition->cache_tags));
             }
 
             //perform the get request
