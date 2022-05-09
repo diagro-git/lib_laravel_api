@@ -57,14 +57,6 @@ class EndpointDefinition
     public ?string $cache_key = null;
 
     /**
-     * Time to live for the cache entry.
-     * Default: 60 minutes.
-     *
-     * @var int
-     */
-    public int $cache_ttl = 3600;
-
-    /**
      * Request timeout in seconds.
      * Default: 30 seconds.
      *
@@ -202,12 +194,6 @@ class EndpointDefinition
     public function setCacheKey(string $cache_key): self
     {
         $this->cache_key = $cache_key;
-        return $this;
-    }
-
-    public function setCacheTTL(int $cache_ttl): self
-    {
-        $this->cache_ttl = $cache_ttl;
         return $this;
     }
 

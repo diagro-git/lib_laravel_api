@@ -31,7 +31,6 @@ trait ApiEndpoints
      *  - bearer_token
      *  - app_id
      *  - timeout
-     *  - cache_ttl
      *
      * If the request method is GET, the cache_tags are set for user, company and application_section
      * If the request is not GET, the applcation_section tag is set for delete after a successfull request.
@@ -44,8 +43,7 @@ trait ApiEndpoints
     protected function factoryDefinition(string $path, RequestMethod $method): EndpointDefinition
     {
         $definition = (new EndpointDefinition($this->url($path), $method, $this->getToken(), $this->getAppId()))
-            ->setTimeout(env('DIAGRO_API_REQUEST_TIMEOUT', 30))
-            ->setCacheTTL(env('DIAGRO_API_CACHE_TTL', 3600));
+            ->setTimeout(env('DIAGRO_API_REQUEST_TIMEOUT', 30));
 
         if($method == RequestMethod::GET) {
             foreach($this->getCacheTags() as $tag) $definition->addCacheTag($tag);

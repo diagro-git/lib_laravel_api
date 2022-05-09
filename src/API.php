@@ -18,8 +18,6 @@ class API
 
     protected static closure $failHandler;
 
-    protected static array $cached = [];
-
 
     public function __construct(protected EndpointDefinition $definition)
     {}
@@ -105,19 +103,17 @@ class API
     public function get(): array
     {
         $key = $this->definition->getCacheKey();
-        if(! isset(self::$cached[$key]) || empty(self::$cached[$key])) {
-            if(! empty( $this->definition->getCacheKey()) && ! $this->definition->hasHeader('x-diagro-cache-key')) {
+        if(! empty( $key) && ! empty( $this->definition->cache_tags)) {
+            if(! $this->definition->hasHeader('x-diagro-cache-key')) {
                 $this->definition->addHeader('x-diagro-cache-key', $this->definition->getCacheKey());
             }
-            if(! empty( $this->definition->cache_tags) && ! $this->definition->hasHeader('x-diagro-cache-tags')) {
+            if(! $this->definition->hasHeader('x-diagro-cache-tags')) {
                 $this->definition->addHeader('x-diagro-cache-tags', implode(',', $this->definition->cache_tags));
             }
-
-            //perform the get request
-            self::$cached[$key] = $this->perform()->json($this->definition->json_key);
         }
 
-        return self::$cached[$key] ?? [];
+        //perform the get request
+        return $this->perform()->json($this->definition->json_key) ?? [];
     }
 
 
