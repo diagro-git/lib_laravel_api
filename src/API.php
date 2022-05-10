@@ -18,6 +18,8 @@ class API
 
     protected static closure $failHandler;
 
+    protected static array $cached = [];
+
 
     public function __construct(protected EndpointDefinition $definition)
     {}
@@ -113,6 +115,12 @@ class API
         }
 
         //perform the get request
+        if($this->definition->cache_request === true && ! empty($key)) {
+            if(! isset(self::$cached[$key])) {
+                self::$cached[$key] = $this->perform()->json($this->definition->json_key) ?? [];
+            }
+            return self::$cached[$key];
+        }
         return $this->perform()->json($this->definition->json_key) ?? [];
     }
 

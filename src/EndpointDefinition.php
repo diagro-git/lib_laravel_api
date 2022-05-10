@@ -71,6 +71,13 @@ class EndpointDefinition
      */
     public ?string $json_key = 'data';
 
+    /**
+     * Cache the data for the current request.
+     *
+     * @var bool
+     */
+    public bool $cache_request = true;
+
 
     public function __construct(
         public string $url,
@@ -215,6 +222,15 @@ class EndpointDefinition
             $this->cache_key = implode('_', $this->cache_tags);
         }
         return $this->cache_key;
+    }
+
+    public function noCache(): self
+    {
+        $this->cache_request = false;
+        $this->cache_key = null;
+        $this->cache_tags = [];
+
+        return $this;
     }
 
 }
