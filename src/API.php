@@ -20,6 +20,8 @@ class API
 
     protected static array $cached = [];
 
+    public static ?string $metricRequestId = null;
+
 
     public function __construct(protected EndpointDefinition $definition)
     {}
@@ -81,6 +83,10 @@ class API
             }
             $refs .= $request->header('x-diagro-cache-key') . ':' . $request->header('x-diagro-cache-tags');
             $defaultHeaders['x-diagro-cache-refs'] = $refs;
+        }
+
+        if(self::$metricRequestId != null) {
+            $defaultHeaders['x-parent-metric'] = self::$metricRequestId;
         }
 
         return array_merge($defaultHeaders, $this->definition->headers);
