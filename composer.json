@@ -1,8 +1,9 @@
 {
     "name": "diagro/lib_laravel_api",
-    "description": "Library for writing API facades for other Laravel backends",
+    "description": "Library for writing API facades for Diagro applications",
     "type": "library",
-    "version": "2.2",
+    "version": "2.3",
+    "license": "Beerware",
     "authors": [
         {
             "name": "Stijn Leenknegt",
