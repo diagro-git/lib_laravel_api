@@ -7,7 +7,7 @@
 <img src="https://img.shields.io/badge/laravel-9.0-red" alt="Laravel framework">
 </p>
 
-## Beschrijving
+## Description
 
 This library is used to write an API helper library for a Diagro backend. The library can be used in the frontends to communicate with the backend.
 This is usefull for developers so they don't have to remember all the URL endpoints, payloads, responses.
